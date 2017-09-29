@@ -9,3 +9,7 @@ rand = "0.3.16"
 structopt = "0.1.0"
 structopt-derive = "0.1.0"
 
+[[bin]]
+name = "hist"
+path = "src/bin/hist.rs"
+

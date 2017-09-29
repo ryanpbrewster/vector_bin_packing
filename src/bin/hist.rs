@@ -5,8 +5,6 @@ use vector_bin_packing::{item, algo};
 extern crate rand;
 use rand::{SeedableRng, XorShiftRng, Rng};
 
-use std::collections::BTreeMap;
-
 extern crate structopt;
 #[macro_use]
 extern crate structopt_derive;
@@ -32,7 +30,6 @@ struct Opt {
 
 fn main() {
     let opt = Opt::from_args();
-    println!("{:?}", opt);
 
     let mut prng = XorShiftRng::from_seed([42, 42, 42, 42]);
     let items = prng.gen_iter::<item::Vnode>().take(opt.num_items).collect();
@@ -43,15 +40,9 @@ fn main() {
         metric: Metric::L0,
     };
 
-    let mut score_tally: BTreeMap<i32, usize> = BTreeMap::new();
     for _ in 0..opt.num_trials {
         prng.shuffle(&mut problem.items);
         let greedy_solution = algo::greedy(&problem);
-        let score = greedy_solution.score(problem.metric);
-        *score_tally.entry(score).or_insert(0) += 1;
-    }
-
-    for (k, v) in score_tally.iter() {
-        println!("{} {}", k, v);
+        println!("{}", greedy_solution.score(problem.metric));
     }
 }

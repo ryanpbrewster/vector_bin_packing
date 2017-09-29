@@ -2,7 +2,6 @@ use std::fmt::Debug;
 use std::ops::{Add, AddAssign};
 use num::Zero;
 use rand::{Rand, Rng};
-use rand::distributions::{Range, IndependentSample};
 
 use Metric;
 
