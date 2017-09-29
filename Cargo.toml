@@ -4,4 +4,8 @@ version = "0.1.0"
 authors = ["Ryan P. Brewster <RyanPBrewster@gmail.com>"]
 
 [dependencies]
-num = "*"
+num = "0.1.40"
+rand = "0.3.16"
+structopt = "0.1.0"
+structopt-derive = "0.1.0"
+

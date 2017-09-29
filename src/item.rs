@@ -1,6 +1,9 @@
 use std::fmt::Debug;
 use std::ops::{Add, AddAssign};
 use num::Zero;
+use rand::{Rand, Rng};
+use rand::distributions::{Range, IndependentSample};
+
 use Metric;
 
 pub trait Item: Clone + Copy + Zero + Add + AddAssign + Debug {
@@ -57,6 +60,15 @@ impl Item for Vnode {
     fn score(&self, metric: Metric) -> i32 {
         match metric {
             Metric::L0 => cmp::max(self.cpu, self.heap_size),
+        }
+    }
+}
+
+impl Rand for Vnode {
+    fn rand<R: Rng>(rng: &mut R) -> Self {
+        Vnode {
+            cpu: rng.gen_range(0, 100),
+            heap_size: rng.gen_range(0, 100),
         }
     }
 }

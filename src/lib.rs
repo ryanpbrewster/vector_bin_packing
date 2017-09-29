@@ -1,4 +1,5 @@
 extern crate num;
+extern crate rand;
 
 pub mod algo;
 pub mod item;
