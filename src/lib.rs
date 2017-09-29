@@ -1,10 +1,21 @@
-use std::cmp;
+extern crate num;
 
-pub trait Item: Clone {}
+use num::Zero;
+
+use std::ops::Add;
+use std::iter::Sum;
+
+pub trait Item: Clone + Zero + Add + Sum {
+    fn normalized(&self) -> Vec<f64>;
+}
 
 mod items {
     use Item;
-    impl Item for i32 {}
+    impl Item for i32 {
+        fn normalized(&self) -> Vec<f64> {
+            vec![*self as f64]
+        }
+    }
 }
 
 #[derive(Debug)]
@@ -36,7 +47,7 @@ pub mod metrics {
     pub struct L0;
     impl Metric for L0 {
         fn for_bin<T>(bin: &[T]) -> f64 {
-            0.0
+            unimplemented!()
         }
     }
 }

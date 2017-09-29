@@ -1,5 +1,5 @@
 extern crate vector_bin_packing;
-use vector_bin_packing::{Problem, Solution};
+use vector_bin_packing::Problem;
 use vector_bin_packing::algo;
 
 fn main() {
