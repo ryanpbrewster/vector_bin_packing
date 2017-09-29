@@ -35,9 +35,9 @@ fn main() {
     let items = prng.gen_iter::<item::Vnode>().take(opt.num_items).collect();
 
     let mut problem = Problem {
-        items: items,
+        items,
         num_bins: opt.num_bins,
-        metric: Metric::L0,
+        metric: Metric::LInf,
     };
 
     for _ in 0..opt.num_trials {

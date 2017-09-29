@@ -21,7 +21,7 @@ pub struct Solution<T: Item> {
 #[derive(Debug, Clone)]
 pub struct Bin<T: Item> {
     items: Vec<T>,
-    total: T,
+    pub total: T,
 }
 impl<T: Item> Bin<T> {
     pub fn new() -> Bin<T> {
@@ -39,7 +39,9 @@ impl<T: Item> Bin<T> {
 
 #[derive(Clone, Copy, Debug)]
 pub enum Metric {
-    L0,
+    L1,
+    L2,
+    LInf,
 }
 
 impl<T: Item> Solution<T> {

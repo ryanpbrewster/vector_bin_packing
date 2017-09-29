@@ -12,7 +12,9 @@ pub trait Item: Clone + Copy + Zero + Add + AddAssign + Debug {
 impl Item for i32 {
     fn score(&self, metric: Metric) -> i32 {
         match metric {
-            Metric::L0 => *self,
+            Metric::L1 => *self,
+            Metric::L2 => *self,
+            Metric::LInf => *self,
         }
     }
 }
@@ -58,7 +60,9 @@ use std::cmp;
 impl Item for Vnode {
     fn score(&self, metric: Metric) -> i32 {
         match metric {
-            Metric::L0 => cmp::max(self.cpu, self.heap_size),
+            Metric::L1 => self.cpu + self.heap_size,
+            Metric::L2 => self.cpu * self.cpu + self.heap_size * self.heap_size,
+            Metric::LInf => cmp::max(self.cpu, self.heap_size),
         }
     }
 }

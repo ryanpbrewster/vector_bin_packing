@@ -34,7 +34,7 @@ mod test {
         let problem = Problem {
             items: vec![5, 3, 2],
             num_bins: 2,
-            metric: Metric::L0,
+            metric: Metric::LInf,
         };
 
         let trivial_solution = algo::trivial(&problem);
