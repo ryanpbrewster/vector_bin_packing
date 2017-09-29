@@ -1,55 +1,52 @@
 extern crate num;
 
-use num::Zero;
+pub mod algo;
+pub mod item;
 
-use std::ops::Add;
-use std::iter::Sum;
-
-pub trait Item: Clone + Zero + Add + Sum {
-    fn normalized(&self) -> Vec<f64>;
-}
-
-mod items {
-    use Item;
-    impl Item for i32 {
-        fn normalized(&self) -> Vec<f64> {
-            vec![*self as f64]
-        }
-    }
-}
+use item::Item;
 
 #[derive(Debug)]
 pub struct Problem<T: Item> {
     pub items: Vec<T>,
     pub num_bins: usize,
+    pub metric: Metric,
 }
 
 #[derive(Debug)]
 pub struct Solution<T: Item> {
-    pub bins: Vec<Vec<T>>,
+    pub bins: Vec<Bin<T>>,
 }
 
-pub trait Metric {
-    fn for_bin<T: Item>(bin: &[T]) -> f64;
+#[derive(Debug, Clone)]
+pub struct Bin<T: Item> {
+    items: Vec<T>,
+    total: T,
+}
+impl<T: Item> Bin<T> {
+    pub fn new() -> Bin<T> {
+        Bin {
+            items: Vec::new(),
+            total: T::zero(),
+        }
+    }
 
-    fn for_solution<T: Item>(solution: &Solution<T>) -> f64 {
-        solution
-            .bins
+    pub fn push(&mut self, item: T) {
+        self.items.push(item);
+        self.total += item;
+    }
+}
+
+#[derive(Clone, Copy, Debug)]
+pub enum Metric {
+    L0,
+}
+
+impl<T: Item> Solution<T> {
+    pub fn score(&self, metric: Metric) -> i32 {
+        self.bins
             .iter()
-            .map(|bin| Self::for_bin(bin))
-            .max_by(|x, y| x.partial_cmp(y).unwrap())
+            .map(|bin| bin.total.score(metric))
+            .max()
             .expect("Metric::for_solution called on solution with 0 bins")
     }
 }
-
-pub mod metrics {
-    use Metric;
-    pub struct L0;
-    impl Metric for L0 {
-        fn for_bin<T>(bin: &[T]) -> f64 {
-            unimplemented!()
-        }
-    }
-}
-
-pub mod algo;
